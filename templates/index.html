@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOOC智能刷课系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <span>MOOC</span>
+            </div>
+        </div>
+        
+        <div class="sidebar-content">
+            <div class="menu-item active" data-tab="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>仪表盘</span>
+            </div>
+            <div class="menu-item" data-tab="users">
+                <i class="fas fa-users"></i>
+                <span>用户管理</span>
+            </div>
+            <div class="menu-item" data-tab="logs">
+                <i class="fas fa-terminal"></i>
+                <span>系统日志</span>
+            </div>
+            <div class="menu-item" data-tab="settings">
+                <i class="fas fa-cog"></i>
+                <span>系统设置</span>
+            </div>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="time-display">
+                <i class="fas fa-clock"></i>
+                <span id="currentTime">--:--:--</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <!-- 顶部导航 -->
+        <div class="top-nav">
+            <div class="nav-left">
+                <h1 class="page-title">智能刷课系统</h1>
+            </div>
+            <div class="nav-right">
+                <div class="control-buttons">
+                    <button id="startAllBtn" class="btn-control btn-start">
+                        <i class="fas fa-play"></i>
+                        <span>启动全部</span>
+                    </button>
+                    <button id="stopAllBtn" class="btn-control btn-stop">
+                        <i class="fas fa-stop"></i>
+                        <span>停止全部</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 仪表盘 -->
+        <div class="tab-content active" id="dashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-label">总用户数</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="runningUsers">0</div>
+                        <div class="stat-label">运行中</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="totalCourses">0</div>
+                        <div class="stat-label">总课程</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="totalVideos">0</div>
+                        <div class="stat-label">总视频</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-section">
+                <div class="status-card">
+                    <div class="card-header">
+                        <h3>系统状态</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="status" class="status-display">
+                            <div class="loading-spinner"></div>
+                            <span>检查中...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 用户管理 -->
+        <div class="tab-content" id="users">
+            <div class="users-section">
+                <div class="section-header">
+                    <h2>用户管理</h2>
+                    <div class="user-count">
+                        <span id="userCount">0</span> 个用户
+                    </div>
+                </div>
+                <div class="users-list" id="userList">
+                    <div class="loading-placeholder">
+                        <div class="spinner"></div>
+                        <p>加载用户数据...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 系统日志 -->
+        <div class="tab-content" id="logs">
+            <div class="logs-section">
+                <div class="section-header">
+                    <h2>系统日志</h2>
+                    <div class="log-controls">
+                        <button id="autoScrollBtn" class="btn-secondary active">
+                            <i class="fas fa-arrow-down"></i>
+                            自动滚动
+                        </button>
+                        <button id="clearLogBtn" class="btn-secondary">
+                            <i class="fas fa-trash"></i>
+                            清除日志
+                        </button>
+                    </div>
+                </div>
+                <div class="logs-container" id="log"></div>
+            </div>
+        </div>
+
+        <!-- 系统设置 -->
+        <div class="tab-content" id="settings">
+            <div class="settings-section">
+                <div class="section-header">
+                    <h2>系统设置</h2>
+                </div>
+                <div class="settings-content">
+                    <div class="setting-group">
+                        <h3>使用说明</h3>
+                        <div class="instructions">
+                            <div class="instruction-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>点击"启动全部"按钮开始自动刷课</span>
+                            </div>
+                            <div class="instruction-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>系统会自动处理验证码和登录</span>
+                            </div>
+                            <div class="instruction-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>支持多用户并发处理</span>
+                            </div>
+                            <div class="instruction-item warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>请确保网络连接稳定</span>
+                            </div>
+                            <div class="instruction-item warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>建议在非高峰期使用</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <h3>系统信息</h3>
+                        <div class="system-info">
+                            <div class="info-item">
+                                <span class="label">版本:</span>
+                                <span class="value">v1.3.2</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">状态:</span>
+                                <span class="value" id="systemStatus">运行中</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">最后更新:</span>
+                                <span class="value" id="lastUpdate">2025-06-09</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 通知容器 -->
+    <div id="notificationContainer"></div>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html> 
