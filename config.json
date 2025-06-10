@@ -1,0 +1,14 @@
+{
+  "global": {
+    "server": ":10086",
+    "limit": 1
+  },
+  "users": [
+    {
+      "base_url": "https://bwgl.rurenkj.com/user/login/",
+      "school_id": 0,
+      "username": "22291217",
+      "password": "a222481"
+    }
+  ]
+}
